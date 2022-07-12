@@ -1,0 +1,26 @@
+name: Bun with Webpack
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+    
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build
+      run: |
+        curl https://bun.sh/install | bash
+        BUN_INSTALL="/home/runner/.bun"
+        PATH="$BUN_INSTALL/bin:$PATH"
+        bun install --force
+        bun run build-on-action
